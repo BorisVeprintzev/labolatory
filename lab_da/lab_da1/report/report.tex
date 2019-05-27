@@ -1,0 +1,182 @@
+\documentclass[pdf, unicode, 12pt, a4paper,oneside,fleqn]{article}
+\usepackage{styles/log-style}
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+    \bfseries
+    
+    {\Large Московский авиационный институт\\ (национальный исследовательский университет)
+    
+    }
+  
+    \vspace{48pt}
+    
+    {\large Факультет информационных технологий и прикладной математики
+    }
+    
+    \vspace{36pt}
+    
+    
+    {\large Кафедра вычислительной математики и~программирования
+    
+    }
+    
+    
+    \vspace{48pt}
+    
+    Лабораторная работа №1 по курсу \enquote{Дискретный анализ}
+    
+    \end{center}
+    
+    \vspace{72pt}
+    
+    \begin{flushright}
+    \begin{tabular}{rl}
+    Студент: & Б.\,И. Вепринцев \\
+    Преподаватель: & А.\,А. Кухтичев \\
+    Группа: & М8О-207Б \\
+    Дата: & \\
+    Оценка: & \\
+    Подпись: & \\
+    \end{tabular}
+    \end{flushright}
+    
+    \vfill
+    
+    \begin{center}
+    \bfseries
+    Москва, \the\year
+    \end{center}
+    \end{titlepage}
+    
+    \pagebreak
+
+    \CWHeader{Лабораторная работа \textnumero 1}
+
+    \CWProblem{
+    Требуется разработать программу, осуществляющую ввод пар \enquote{ключ-значение}, их 
+    упорядочивание по возрастанию ключа указанным алгоритмом сортировки за линейное время и вывод отсортированной последовательности.
+
+    {\bfseries Вариант сортировки:} Поразрядная сортировка.
+
+    {\bfseries Вариант ключа:} { \normalfont\ttfamily Автомобильные номера в формате А 999 BC (используются буквы латинского алфавита). }
+
+    {\bfseries Вариант значения:} { \normalfont\ttfamily Числа от $0$ до $2^{64} - 1$. }
+    }
+    \pagebreak
+    \section{Описание}
+    Поразрядная сортировка является повторением сортировки подсчетом для каждого разряда или сразу нескольких разрядов.
+Как сказано в \cite{Kormen}: \enquote{основная идея сортировки подсчетом заключается в том, чтобы для каждого входного 
+элемента $x$ определить количество элементов, которые меньше $x$}.\\
+Число элементов меньше $x$ будет обозначать место элемента в выходном отсортированном массиве.\\
+
+К особенностям алгоритма относится то, что необходимо определить верхнюю границу $k$ допустимых значений ключей элементов, входящих во входной массив. Если $k = O(n) \Rightarrow k = \Theta(n)$. При этом является стабильной сортировкой и ни одна пара элементов при этом не сравнивается друг с другом.\\
+К минусам можно отнести то, что требует памяти для 2 дополнительных массивов(помимо исходного массива) размерности $k$ и $n$ соответственно.\\
+
+{\it Алгоритм:}\\
+
+
+{   \textbf{for} $a \leftarrow 0 \: \textbf{to} \: max digit$\\
+    \it Counting Sort(A)}:\\
+\textbf{for} $i \leftarrow 0 \: \textbf{to} \: k$\\
+  {\hspace*{0.5cm}$ C[i] \leftarrow 0$}\\
+\textbf{for} $j \leftarrow 1 \: \textbf{to} \: length[A]$\\
+  {\hspace*{0.5cm}$ C[A[j]] \leftarrow C[A[j]] + 1$}\\
+\textbf{for} $i \leftarrow 1 \: \textbf{to} \: k$\\
+  {\hspace*{0.5cm} $ C[i] \leftarrow C[i] + C[i-1]$}\\
+\textbf{for} $j \leftarrow length[A] \: \textbf{downto} \: 1$\\
+  {\hspace*{0.5cm}$ B[C[A[j]]] \leftarrow A[j]$}\\
+  {\hspace*{0.5cm}$ C[A[j]] \leftarrow C[A[j]]-1$}\\
+
+\pagebreak
+
+\section{Исходный код}
+
+На каждой непустой строке входного файла располагается пара \enquote{ключ-значение}, поэтому создадим новую 
+структуру $pare$, в которой будем хранить три цифры номера, три буквы по отдельности, а также значение. 
+
+\begin{lstlisting}[language=C]
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <math.h>
+  
+
+typedef struct 
+{
+    int first;
+    int second;
+    int third;
+    int number;
+    unsigned long long int value;
+}pare;
+
+int max_number(int *data, int number)
+void counting_sort(pare* data_full, int number, int number_elem)
+void print(pare* result, int number_of_elem)
+
+\end{lstlisting}
+
+\pagebreak
+
+{\it Описание методов и функций:}\\
+\begin{longtable}{|p{7.5cm}|p{7.5cm}|}
+\hline
+\rowcolor{lightgray}
+\multicolumn{2}{|c|} {main.c}\\
+\hline
+$int\  max\_number(int* \ data, int \ number)$&Нахождение максимальноо числа\\
+\hline
+$void\  counting\_sort(pare* \ data\_full, int \ number, int \ number\_elem )$&Метод сортировки подсчетом для каждого вида\\
+\hline
+$void\  print(pare*\ result, int \ number\_of\_elem)$&Метод печати ответа\\
+\hline
+$int\ main()$&Основная функция работы\\
+\hline
+\rowcolor{lightgray}
+
+\end{longtable}
+
+Помимо этого у нас имеется файл {\it gen\_test.py}, в котором реализован генератор тестов для программы, принимающий на вход имя тестового файла и количество тестовых строк.
+
+\pagebreak
+
+\section{Консоль}
+\begin{alltt}
+
+  boris@boris-VirtualBox:~/study/lab_da/lab_da1$ gcc -std=c99 -g -Wall -o lab lab1_2.c
+  boris@boris-VirtualBox:~/study/lab_da/lab_da1$ python3 gen_test.py
+  boris@boris-VirtualBox:~/study/lab_da/lab_da1$ cat test.txt
+  V 637 ZQ 1935
+  S 545 MI 257315
+  G 956 TN 199115
+  J 843 CQ 72494
+  L 725 KB 28
+  V 752 IH 4442
+  O 464 HS 55937
+  P 598 JT 99519
+  Z 295 HJ 523399
+  X 465 AH 85
+  
+  boris@boris-VirtualBox:~/study/lab_da/lab_da1$ ./lab < test.txt
+  G 956 TN        199115
+  J 843 CQ        72494
+  L 725 KB        28
+  O 464 HS        55937
+  P 598 JT        99519
+  S 545 MI        257315
+  V 637 ZQ        1935
+  V 752 IH        4442
+  X 465 AH        85
+  Z 295 HJ        523399
+
+\end{alltt}
+\pagebreak
+\section{Вывод}
+Выполнив первую лабораторную работу по курсу \enquote{Дискретный анализ}, я получил полезные знания о том, как реализуется одна из 
+сортировок за линейное время - поразраядная сортировка, и приобрел свой первый опыт разработки в условиях ограниченной памяти и времени выполения. \\
+Так же в результате данной работы я понял, что лучше использовать уже готовые решения, нежели заново изобретать велосипед. В частности это
+касается самых базовых вещей, например таких как вектор. Еще в течении работы над этой лабораторной, я укрепил свои навыки работы с отладчиком gdb.\\
+
+
+\end{document}
