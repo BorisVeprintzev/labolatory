@@ -1,0 +1,96 @@
+boris@boris-VirtualBox:~/lab$ cat > test1c.tst
+4 5 7 10 20
+boris@boris-VirtualBox:~/lab$ cat > test2c.tst
+8 10 100 1000 10000 100000 1000000 10000000 10000000
+boris@boris-VirtualBox:~/lab$ cat > test3c.tst
+3 6 8 1
+boris@boris-VirtualBox:~/lab$ cat > test4c.tst
+2 -20000000 20000000
+
+boris@boris-VirtualBox:~/lab$ cat c.c
+#include <stdio.h>
+
+int main(void)
+{
+    int a, b;
+    b = 0;
+    scanf("%d", &a);
+    while (a > 0) {
+        
+        int x;
+        scanf("%d", &x);
+        if (x >= 10) {
+            
+            b = b + x;
+        }
+        a--;
+    }
+    
+    printf("%d\n", b);
+    
+    return 0;
+
+}
+boris@boris-VirtualBox:~/lab$ gcc -Wall -Wextra -pedantic -std=c99 -o lab8c c.c
+boris@boris-VirtualBox:~/lab$ ./lab8c < test1c.tst
+30
+boris@boris-VirtualBox:~/lab$ ./lab8c < test2c.tst
+21111110
+boris@boris-VirtualBox:~/lab$ ./lab8c < test3c.tst
+0
+boris@boris-VirtualBox:~/lab$ ./lab8c < test4c.tst
+20000000
+
+boris@boris-VirtualBox:~/lab/lab8$ cat 123.c
+#include <stdio.h>
+
+int main(void)
+{
+    int a, b;
+    b = 0;
+    scanf("%d", &a);
+    while (a > 0) {
+        
+        int x;
+        scanf("%d", &x);
+        a--;
+        b = b + x;
+    }
+    
+    printf("%d\n", b);
+    return 0;
+
+}
+boris@boris-VirtualBox:~/lab/lab8$ gcc -Wall -Wextra -pedantic -std=c99 -o lab8b 123.c
+boris@boris-VirtualBox:~/lab/lab8$ ./lab8b < test1c.tst
+42
+boris@boris-VirtualBox:~/lab/lab8$ ./lab8b < test2c.tst
+21111110
+boris@boris-VirtualBox:~/lab/lab8$ ./lab8b < test3c.tst
+15
+boris@boris-VirtualBox:~/lab/lab8$ ./lab8b < test4c.tst
+0
+
+
+boris@boris-VirtualBox:~/lab/lab8$ cat > test1a.tst
+5 8
+boris@boris-VirtualBox:~/lab/lab8$ cat > test2a.tst
+2000000 2000000
+boris@boris-VirtualBox:~/lab/lab8$ cat lab8a.c
+#include <stdio.h>
+
+int main(void)
+{
+	int a, b, c;
+	scanf("%d%d", &a, &b);
+	c = a + b;
+	printf("%d", c);
+	return 0;
+
+}
+boris@boris-VirtualBox:~/lab/lab8$ gcc -Wall -Wextra -pedantic -std=c99 -o l lab8a.c
+boris@boris-VirtualBox:~/lab/lab8$ ./lab8a < test1a.tst
+13
+boris@boris-VirtualBox:~/lab/lab8$ ./lab8a < test2a.tst
+4000000
+boris@boris-VirtualBox:~/lab/lab8$ 

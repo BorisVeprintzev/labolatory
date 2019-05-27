@@ -1,0 +1,143 @@
+#include <stdio.h>
+#include <math.h>
+
+
+
+
+int max1(int i, int k, int j)
+{
+    int x;
+    if (i * (k + 5) >= j * (k + 6)) {
+        x = i * (k + 5);
+    } else {
+        x = j * (k + 6);
+    }
+    return x;
+}
+
+int min1(int j, int k, int l)
+{
+    int x;
+    if (j * (k + 7) >= l * (k + 8)) {
+        x = l * (k + 8);
+    } else {
+        x = j * (k + 7);
+    }
+    return x;
+}
+
+int module1(int res)
+{
+    if (res >= 0) {
+        return res;
+    } else {
+        return -1 * res;
+    }
+}
+
+
+int sign(int i, int j)
+{
+    int x;
+    if (i > j) {
+        x = 1;
+    }
+    if (i == j) {
+        x = 0;
+    } else {
+        x = -1;
+    }
+    return x;
+}
+
+int min2(int i, int l, int j)
+{
+    int res;
+    if (i * l + 5 >= j * l - 3) {
+        if (j * l - 3 >= i * j + 6) {
+            res = i * j + 6;
+        } else {
+            res = j * l - 3;
+        }
+    } else {
+        if (i * l + 5 >= i * j + 6) {
+            res = i * j + 6;
+        } else {
+            res = i * l + 5;
+        }
+    }
+    return res;
+}
+
+int module3(int res)
+{
+    if (res >= 0) {
+        return res;
+    } else {
+        return -1 * res;
+    }
+}
+
+int in_a_area(int i, int j)
+{    
+    if ((i >= 5) && (j >= -15) && (i <= 15) && (j <= -5)) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+int l_result(int i, int j, int l)
+{
+    int i1, j1, l1;
+    i1 = i % 10;
+    if (i1 < 0) {
+        i1 = i1 + 10;
+    }
+    j1 = j % 10;
+    if (j1 < 0) {
+        j1 = j1 + 10;
+    }
+    l1 = l % 10;
+    if (l1 < 0) {
+        l1 = l1 + 10;
+    }
+
+    return i1 + j1 + l1;
+}
+
+int i_result(int i, int j, int l, int k)
+{
+    int i_res;
+    i_res = (module1(max1(i, k, j)) - module1(min1(j, k, l))) % 20;
+    if (i_res < 0) {
+        i_res = i_res + 20; 
+    }
+    return i_res;
+}
+
+int main(void)
+{
+    int i, j, l, k, in, jn, ln;
+    scanf("%d %d %d", &i, &j, &l);
+
+    for (k = 0; !in_a_area(i, j) && k < 50; k++) {
+        in = i_result(i, j, l, k);
+        ln = l_result(i, j, l);
+        jn = ((3 - sign(i, j)) * min2(i, j, l)) % 25;
+        if (jn < 0) {
+            jn = jn + 18;
+        } else {
+            jn = jn - 7;
+        }
+        i = in;
+        j = jn;
+        l = ln;
+    } 
+
+    printf("%s\n", in_a_area(i, j) ? "Yes" : "No");
+    printf("%d %d %d %d\n", i, j, l, k);
+
+    return 0;
+}
+
